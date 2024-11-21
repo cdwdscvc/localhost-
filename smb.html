@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доступ к Samba-серверу</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        #terminal {
+            white-space: pre-wrap;
+            overflow-y: auto;
+            height: 80vh;
+            border: 1px solid #0f0;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .input-line {
+            display: flex;
+            align-items: center;
+        }
+        .prompt {
+            color: #00f;
+        }
+        #user-input {
+            background: none;
+            border: none;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 16px;
+            flex-grow: 1;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal">
+        Welcome to MY-SAMBA-SERVER (Ubuntu 20.04 LTS)\n
+        Type <code>help</code> for a list of commands.
+    </div>
+    <div class="input-line">
+        <span class="prompt">$</span>&nbsp;<input id="user-input" type="text" autofocus>
+    </div>
+
+    <script>
+        const terminal = document.getElementById("terminal");
+        const userInput = document.getElementById("user-input");
+
+        // Список команд и их ответы
+        const commands = {
+            "help": "Available commands:\n  - help: Show this help message\n  - smbclient -L //kankulovserver: List SMB shares\n  - smbclient //kankulovserver/soft -U guest: Access the 'soft' share\n  - exit: Exit the terminal",
+            "smbclient -L //kankulovserver": `
+Sharename       Type      Comment
+---------       ----      -------
+public          Disk      Public folder
+usr             Disk      Read-only folder
+lib             Disk      Open library
+soft            Disk      Samba share
+IPC$            IPC       IPC Service
+
+Server               Comment
+---------            -------
+MY-SAMBA-SERVER      Samba 4.15.0
+
+Workgroup            Master
+---------            -------
+WORKGROUP            MY-SAMBA-SERVER
+            `,
+            "smbclient //kankulovserver/soft -U guest": `
+Try "help" to get a list of commands.
+smb: \> dir
+  .                                   D        0  Fri Nov 21 10:00:00 2024
+  ..                                  D        0  Fri Nov 21 09:59:59 2024
+  example.txt                         N      1024  Fri Nov 21 09:30:00 2024
+  readme.md                           N      2048  Fri Nov 21 09:31:00 2024
+
+                10204 blocks of size 1024. 8192 blocks available.
+smb: \>`,
+            "exit": "Goodbye!"
+        };
+
+        // Обработка ввода команды
+        userInput.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                const input = userInput.value.trim();
+                processCommand(input);
+                userInput.value = ""; // Очистка строки ввода
+            }
+        });
+
+        function processCommand(input) {
+            const output = commands[input] || `Command not found: ${input}`;
+            
+            // Вывод команды и ответа
+            terminal.innerHTML += `\n$ ${input}\n${output}`;
+            
+            // Автопрокрутка вниз
+            terminal.scrollTop = terminal.scrollHeight;
+
+            // Блокировка ввода после команды "exit"
+            if (input === "exit") {
+                userInput.disabled = true;
+                userInput.blur();
+            }
+        }
+    </script>
+</body>
+</html>
