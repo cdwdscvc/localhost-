@@ -3,40 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тестовый Сайт</title>
+    <title>Математические задачи</title>
+    <script src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>
 </head>
 <body>
-    <h1 style="font-family: Bowler; color: rgb(8, 8, 134);">Добро пожаловать на Тестовый Сайт!</h1>
-    <p>Это стартовая страница тестового сайта.</p>
-    <p style="font-family: disket mono;">На порту 80</p>
-    <p>Нажмите <a href="index8080.html">здесь</a>, чтобы выполнить CGI-скрипт.</p>
-
-    <hr>
-
-    <!-- Добавлена информация об облачном сервере -->
-    <h2>Информация о сервере</h2>
+    <h1>Решения математических задач</h1>
+    
+    <!-- Задача 1 -->
+    <h2>1. Уравнение плоскости, проходящей через точку с нормальным вектором</h2>
+    <p><b>Условие:</b> Точка M(4, 5, 6), нормальный вектор N(4, 5, 4).</p>
+    <p><b>Решение:</b> Уравнение плоскости: <b>4x + 5y + 4z - 81 = 0</b>.</p>
+    <div id="plane1" style="width:600px; height:600px;"></div>
+    <script>
+        const x1 = [];
+        const y1 = [];
+        const z1 = [];
+        for (let x = -10; x <= 10; x += 1) {
+            for (let y = -10; y <= 10; y += 1) {
+                x1.push(x);
+                y1.push(y);
+                z1.push((81 - 4 * x - 5 * y) / 4); // z = (D - Ax - By) / C
+            }
+        }
+        const data1 = {
+            x: x1,
+            y: y1,
+            z: z1,
+            type: 'mesh3d',
+            opacity: 0.5,
+        };
+        Plotly.newPlot('plane1', [data1], { title: 'Плоскость: 4x + 5y + 4z - 81 = 0' });
+    </script>
+    
+    <!-- Задача 2 -->
+    <h2>2. Уравнение плоскости, отсекающей отрезки на координатных осях</h2>
+    <p><b>Условие:</b> Плоскость отсекает на осях отрезки 4, 5, -1.</p>
+    <p><b>Решение:</b> Уравнение плоскости: <b>x/4 + y/5 + z/(-1) = 1</b>, или <b>5x + 4y - 20z = 20</b>.</p>
+    <div id="plane2" style="width:600px; height:600px;"></div>
+    <script>
+        const x2 = [];
+        const y2 = [];
+        const z2 = [];
+        for (let x = -10; x <= 10; x += 1) {
+            for (let y = -10; y <= 10; y += 1) {
+                x2.push(x);
+                y2.push(y);
+                z2.push(-1 * (1 - x / 4 - y / 5)); // z = (-1) * (1 - x/aY - y/bY)
+            }
+        }
+        const data2 = {
+            x: x2,
+            y: y2,
+            z: z2,
+            type: 'mesh3d',
+            opacity: 0.5,
+        };
+        Plotly.newPlot('plane2', [data2], { title: 'Плоскость: 5x + 4y - 20z = 20' });
+    </script>
+    
+    <!-- Задача 3 -->
+    <h2>3. Особенности плоскостей относительно координат</h2>
+    <p>Примеры уравнений плоскостей и их нормальных векторов:</p>
     <ul>
-        <li>Сервер запущен на облачной платформе: <strong>AWS EC2</strong></li>
-        <li>IP-адрес сервера: <strong>52.14.134.123</strong></li>
-        <li>Хостинг: <strong>Amazon Linux 2</strong></li>
+        <li><b>4x + 5y - 1 = 0:</b> нормальный вектор (4, 5, 0).</li>
+        <li><b>4x + 4z - 1 = 0:</b> нормальный вектор (4, 0, 4).</li>
+        <li><b>5y + 4z - 1 = 0:</b> нормальный вектор (0, 5, 4).</li>
+        <li><b>4x - 1 = 0:</b> нормальный вектор (4, 0, 0).</li>
+        <li><b>5y - 1 = 0:</b> нормальный вектор (0, 5, 0).</li>
+        <li><b>4z - 1 = 0:</b> нормальный вектор (0, 0, 4).</li>
     </ul>
-
-    <hr>
-
-    <!-- Добавлены параметры серверной конфигурации -->
-    <h2>Текущая конфигурация Apache</h2>
-    <ul>
-        <li>Apache/2.4.56 (Amazon) OpenSSL/1.1.1k PHP/8.2.4</li>
-        <li>Документ-рутовая папка: <code>/var/www/html</code></li>
-        <li>Доступ к виртуальному хосту: <code>http://52.14.134.123</code></li>
-        <li>Слушающий порт: <strong>80</strong></li>
-    </ul>
-
-    <hr>
-
-    <!-- Добавлено сообщение, которое обычно отображается на реальных серверах -->
-    <p style="font-family: monospace; font-size: 0.9em; color: gray;">
-        Apache/2.4.56 (Amazon) OpenSSL/1.1.1k PHP/8.2.4 Server at 52.14.134.123 Port 80
+    
+    <!-- Задача 4 -->
+    <h2>4. Прямая, проходящая через две точки</h2>
+    <p><b>Условие:</b> Точки M1(4, 5, 6) и M2(-4, 0, 4).</p>
+    <p><b>Решение:</b> 
+        <br>Вектор направления: (-8, -5, -2). 
+        <br>Параметрическое уравнение:
+        <ul>
+            <li>x(t) = 4 - 8t</li>
+            <li>y(t) = 5 - 5t</li>
+            <li>z(t) = 6 - 2t</li>
+        </ul>
     </p>
+    <div id="line1" style="width:600px; height:600px;"></div>
+    <script>
+        const t = [];
+        const xLine = [];
+        const yLine = [];
+        const zLine = [];
+        for (let i = -10; i <= 10; i++) {
+            t.push(i);
+            xLine.push(4 - 8 * i);
+            yLine.push(5 - 5 * i);
+            zLine.push(6 - 2 * i);
+        }
+        const lineData = {
+            x: xLine,
+            y: yLine,
+            z: zLine,
+            mode: 'lines',
+            type: 'scatter3d',
+        };
+        Plotly.newPlot('line1', [lineData], { title: 'Прямая через точки M1 и M2' });
+    </script>
+    
+    <!-- Задача 5 -->
+    <h2>5. Кривые на плоскости xOy</h2>
+    <p><b>Пример:</b> Окружность x² + y² = 4.</p>
+    <div id="curves" style="width:600px; height:600px;"></div>
+    <script>
+        const theta = [];
+        const xCircle = [];
+        const yCircle = [];
+        for (let i = 0; i <= 360; i++) {
+            theta.push(i);
+            xCircle.push(2 * Math.cos(i * Math.PI / 180));
+            yCircle.push(2 * Math.sin(i * Math.PI / 180));
+        }
+        const circleData = {
+            x: xCircle,
+            y: yCircle,
+            mode: 'lines',
+            type: 'scatter',
+        };
+        Plotly.newPlot('curves', [circleData], { title: 'Кривая: x² + y² = 4' });
+    </script>
+    
+    <!-- Задача 6 -->
+    <h2>6. Построение цилиндров</h2>
+    <p><b>Условие:</b> Цилиндр, заданный уравнением: x² + y² = 4.</p>
+    <div id="cylinder" style="width:600px; height:600px;"></div>
+    <script>
+        const phiC = [];
+        const xCylinder = [];
+        const yCylinder = [];
+        const zCylinder = [];
+        for (let i = 0; i <= 360; i += 5) {
+            for (let j = -10; j <= 10; j += 2) {
+                phiC.push(i);
+                xCylinder.push(2 * Math.cos(i * Math.PI / 180));
+                yCylinder.push(2 * Math.sin(i * Math.PI / 180));
+                zCylinder.push(j);
+            }
+        }
+        const cylinderData = {
+            x: xCylinder,
+            y: yCylinder,
+            z: zCylinder,
+            type: 'mesh3d',
+            opacity: 0.5,
+        };
+        Plotly.newPlot('cylinder', [cylinderData], { title: 'Цилиндр: x² + y² = 4' });
+    </script>
+    
+    <!-- Задача 7 -->
+    <h2>7. Поверхности методом сечений</h2>
+    <p><b>Условие:</b> Поверхность x² + y² = z² (конус).</p>
+    <div id="cone" style="width:600px; height:600px;"></div>
+    <script>
+        const zCone = [];
+        const xCone = [];
+        const yCone = [];
+        for (let zVal = -5; zVal <= 5; zVal += 1) {
+            for (let thetaVal = 0; thetaVal <= 360; thetaVal += 10) {
+                xCone.push(zVal * Math.cos(thetaVal * Math.PI / 180));
+                yCone.push(zVal * Math.sin(thetaVal * Math.PI / 180));
+                zCone.push(zVal);
+            }
+        }
+        const coneData = {
+            x: xCone,
+            y: yCone,
+            z: zCone,
+            type: 'mesh3d',
+            opacity: 0.5,
+        };
+        Plotly.newPlot('cone', [coneData], { title: 'Поверхность: x² + y² = z²' });
+    </script>
+    
+    <h3>Заключение:</h3>
+    <p>Все задачи решены и графики построены с использованием JavaScript и библиотеки Plotly.</p>
 </body>
 </html>
